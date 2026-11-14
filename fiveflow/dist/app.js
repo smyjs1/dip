@@ -37,6 +37,7 @@ Object.assign(copy.en, {
   liveFailure:'Live search is unavailable right now. Please try again.',
   noVenue:'No suitable visitor destination was found. Try a more specific neighborhood or place.',
   fallbackNotice:'Live search is unavailable. Showing a curated example instead.',
+  fallbackNoVenue:'Live search could not verify a suitable place. Showing a curated example instead.',
   translationLoading:'Translating this recommendation…',
   languageFailure:'Translation is unavailable. Showing the original recommendation.',
   mapTitle:'Explore the area', mapCaption:'Location on Google Maps',
@@ -48,6 +49,7 @@ Object.assign(copy.ja, {
   liveFailure:'現在ライブ検索を利用できません。もう一度お試しください。',
   noVenue:'訪問できる場所が見つかりませんでした。より具体的な地域や場所を入力してください。',
   fallbackNotice:'ライブ検索を利用できないため、サンプルを表示しています。',
+  fallbackNoVenue:'条件に合う場所を確認できなかったため、サンプルを表示しています。',
   translationLoading:'このおすすめを翻訳しています…',
   languageFailure:'翻訳を利用できないため、元の言語で表示しています。',
   mapTitle:'場所を見てみよう', mapCaption:'Google マップで場所を確認',
@@ -97,7 +99,7 @@ function mapEmbed(query) {
 function renderResult() {
   if(state.place?.kind === 'live') return renderLiveResult(state.liveResults[state.lang]);
   const d=t(), p=state.place, e=d.elements[state.today.element], personal=d.elements[state.person.element], rel=d.relations[state.relation], action=p.activities[state.lang][state.today.element];
-  $('result-content').innerHTML=`<div class="result-inner"><div class="result-top"><span class="eyebrow">${d.resultLabel}</span><span class="demo-badge">${d.demoLabel}</span></div>${p.isFallback ? `<p class="reading-note">${d.fallbackNotice}</p>` : ''}<div class="result-title-row"><div><span class="result-area">${p.area[state.lang]}</span><h2>${p.name[state.lang]}</h2></div><div class="result-stamp">${e[0]}</div></div>${mapEmbed(p.maps)}<div class="result-divider"></div><div class="result-grid"><div class="result-block"><span class="eyebrow">01 / ${d.actionLabel}</span><p>${action}</p></div><div class="result-block"><span class="eyebrow">02 / ${d.luckLabel}</span><h3>${e[2]}</h3><p>${e[3]}</p></div><div class="result-block wide"><span class="eyebrow">03 / ${d.reasonLabel}</span><p>${personal[0]} × ${e[0]} · ${rel[0]}. ${rel[1]} ${d.reason}</p></div></div><div class="result-footer"><a href="${p.source}" target="_blank" rel="noopener noreferrer">${d.source}</a><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.maps)}" target="_blank" rel="noopener noreferrer">${d.map}</a></div><p class="reading-note">${d.checkHours}</p></div>`;
+  $('result-content').innerHTML=`<div class="result-inner"><div class="result-top"><span class="eyebrow">${d.resultLabel}</span><span class="demo-badge">${d.demoLabel}</span></div>${p.isFallback ? `<p class="reading-note">${p.fallbackCause === 'no_visitor_venue' ? d.fallbackNoVenue : d.fallbackNotice}</p>` : ''}<div class="result-title-row"><div><span class="result-area">${p.area[state.lang]}</span><h2>${p.name[state.lang]}</h2></div><div class="result-stamp">${e[0]}</div></div>${mapEmbed(p.maps)}<div class="result-divider"></div><div class="result-grid"><div class="result-block"><span class="eyebrow">01 / ${d.actionLabel}</span><p>${action}</p></div><div class="result-block"><span class="eyebrow">02 / ${d.luckLabel}</span><h3>${e[2]}</h3><p>${e[3]}</p></div><div class="result-block wide"><span class="eyebrow">03 / ${d.reasonLabel}</span><p>${personal[0]} × ${e[0]} · ${rel[0]}. ${rel[1]} ${d.reason}</p></div></div><div class="result-footer"><a href="${p.source}" target="_blank" rel="noopener noreferrer">${d.source}</a><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.maps)}" target="_blank" rel="noopener noreferrer">${d.map}</a></div><p class="reading-note">${d.checkHours}</p></div>`;
 }
 function renderLiveResult(result, warning = '') {
   const d=t(), e=d.elements[state.today.element], personal=d.elements[state.person.element], rel=d.relations[state.relation];
@@ -151,10 +153,9 @@ async function loadRecommendation(query) {
     else { button.disabled=false; button.removeAttribute('aria-busy'); $('voice-status').textContent=''; translateResult(); }
   } catch (error) {
     if(requestId !== state.requestId) return;
-    if(error.message === 'no_visitor_venue') { $('place-error').textContent=t().noVenue; return; }
     const lower=query.toLowerCase(), fallback=places.find(p=>p.keys.some(key=>lower === key.toLowerCase()));
-    if(fallback) { state.place={...fallback,isFallback:true}; state.liveResults={}; renderResult(); setStep(3); }
-    else $('place-error').textContent=t().liveFailure;
+    if(fallback) { state.place={...fallback,isFallback:true,fallbackCause:error.message}; state.liveResults={}; renderResult(); setStep(3); }
+    else $('place-error').textContent=error.message === 'no_visitor_venue' ? t().noVenue : t().liveFailure;
   } finally {
     clearTimeout(timer);
     if(requestId === state.requestId) { state.controller=null; button.disabled=false; button.removeAttribute('aria-busy'); $('voice-status').textContent=''; window.gogyoLoading.stop(); }
