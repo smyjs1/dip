@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f3eb">
+  <meta name="description" content="A little adventure inspired by the five elements.">
+  <title>GOGYO — Find your flow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="loading.css">
+  <script type="module" src="app.js"></script>
+  <script type="module" src="scene.js"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="header">
+      <a class="brand" href="./" aria-label="GOGYO home"><span class="brand-mark">五</span><span class="brand-word">GOGYO<span class="brand-dot">.</span><small>FIND YOUR FLOW</small></span></a>
+      <div class="header-right"><span class="header-caption" data-i18n="headerCaption">A little direction for your day</span><button id="lang-toggle" class="language" type="button" aria-label="Change language">EN <span>／</span> JP</button></div>
+    </header>
+
+    <main>
+      <div class="topline"><span class="issue"><span class="issue-dot"></span><span data-i18n="issue">A LITTLE DAILY RITUAL</span></span><span class="topline-right" data-i18n="edition">INSPIRED BY THE FIVE ELEMENTS</span></div>
+      <nav class="progress" aria-label="Progress">
+        <div class="progress-item active" data-step-indicator="1"><span>01</span><b data-i18n="progressOne">Your element</b></div><i></i>
+        <div class="progress-item" data-step-indicator="2"><span>02</span><b data-i18n="progressTwo">Your place</b></div><i></i>
+        <div class="progress-item" data-step-indicator="3"><span>03</span><b data-i18n="progressThree">Your moment</b></div>
+      </nav>
+
+      <section id="step-1" class="step step-one" aria-labelledby="hero-title">
+        <div class="intro-copy">
+          <div class="culture-mark" aria-hidden="true"><span>五行</span><i></i><small>天地<br>之间</small></div>
+          <div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="eyebrowOne">A SMALL RITUAL FOR YOUR DAY</span><span class="eyebrow-ja">五行のめぐり</span></div>
+          <h1 id="hero-title"><span data-i18n="heroTitleOne">A little more</span><br><em data-i18n="heroTitleTwo">flow</em> <span data-i18n="heroTitleThree">in your day.</span></h1>
+          <p class="hero-lede" data-i18n="heroLede">An ancient idea, a new way to explore. Discover how your element meets today's, and find a little adventure made for you.</p>
+          <div class="intro-note"><span class="mini-symbol">✳</span><p><strong data-i18n="noteTitle">THE FIVE ELEMENTS</strong><span data-i18n="noteBody">Wood, fire, earth, metal and water. A different lens for the everyday.</span></p><span class="intro-seal" aria-hidden="true">顺<br>时</span></div>
+        </div>
+        <div class="ritual-panel">
+          <div class="panel-top"><span data-i18n="panelKicker">LET'S BEGIN</span><span>01 / 03</span></div>
+          <div class="wheel-wrap" aria-hidden="true"><div class="wheel-ring ring-one"></div><div class="wheel-ring ring-two"></div><div class="wheel-center"><span>五</span><small>GO · GYO</small></div><span class="orbit orb-wood">木</span><span class="orbit orb-fire">火</span><span class="orbit orb-earth">土</span><span class="orbit orb-metal">金</span><span class="orbit orb-water">水</span><span class="wheel-star star-one">✳</span><span class="wheel-star star-two">✦</span></div>
+          <div class="form-area"><div class="form-heading"><span class="tiny-icon">✳</span><div><h2 data-i18n="birthdayTitle">It starts with you.</h2><p data-i18n="birthdayDesc">Your birthday reveals your personal element.</p></div></div>
+            <label for="birthday" data-i18n="birthdayLabel">YOUR DATE OF BIRTH</label>
+            <div class="date-row"><input id="birthday" type="date" min="1900-01-01" max="2100-12-31" required aria-describedby="birth-hint"><button id="analyze" class="primary-button" type="button"><span data-i18n="analyze">Discover my element</span><span class="arrow">↗</span></button></div>
+            <div class="form-footer"><span id="birth-hint" data-i18n="birthHint">Your date stays on this device.</span><button id="demo" class="text-button" type="button" data-i18n="demo">Try an example ↗</button></div>
+          </div>
+        </div>
+        <div id="analysis" class="analysis-panel" hidden><div class="analysis-heading"><span class="section-label" data-i18n="yourReading">YOUR READING</span><span class="analysis-seal">五</span></div><div id="analysis-content"></div><div class="analysis-actions"><p data-i18n="analysisFoot">A moment to pause. A new way to see your day.</p><button id="to-place" class="primary-button" type="button"><span data-i18n="toPlace">Choose your place</span><span class="arrow">↗</span></button></div></div>
+      </section>
+
+      <section id="step-2" class="step next-step" hidden aria-labelledby="place-title">
+        <div class="next-intro"><div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="eyebrowTwo">LET'S GO SOMEWHERE</span><span class="eyebrow-ja">行きたい場所</span></div><h1 id="place-title"><span data-i18n="placeTitleOne">Where to</span><br><em data-i18n="placeTitleTwo">today?</em></h1><p class="hero-lede" data-i18n="placeLede">A neighborhood, a city, or a place you've been curious about. Say it out loud or write it down.</p><div class="stamp" aria-hidden="true"><span>巡</span><small>LET'S<br>WANDER</small></div></div>
+        <div class="place-card"><div class="panel-top"><span data-i18n="placeKicker">YOUR NEXT LITTLE ADVENTURE</span><span>02 / 03</span></div><div class="place-art" aria-hidden="true"><div class="place-sun"></div><div class="place-line line-a"></div><div class="place-line line-b"></div><div class="place-line line-c"></div><span>巡</span><small>WHERE WILL YOU GO?</small></div><div class="form-area"><div class="form-heading"><span class="tiny-icon">✳</span><div><h2 data-i18n="placeInputTitle">Start with a place.</h2><p data-i18n="placeInputDesc">Tell us where you'd like to explore.</p></div></div><label for="place" data-i18n="placeLabel">YOUR DESTINATION</label><div class="place-input-wrap"><input id="place" type="text" placeholder="e.g. Shinjuku" autocomplete="off" data-i18n-placeholder="placePlaceholder"><button id="mic" class="mic-button" type="button" aria-label="Use your microphone" title="Use your microphone"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"></rect><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3m-3 0h6"></path></svg></button></div><div id="voice-status" class="field-message" role="status" aria-live="polite"></div><div id="place-error" class="field-message error" role="alert"></div><div class="place-actions"><button id="back-one" class="back-button" type="button"><span>←</span> <span data-i18n="back">Back</span></button><button id="find-place" class="primary-button" type="button"><span data-i18n="findPlace">Find my experience</span><span class="arrow">↗</span></button></div></div></div>
+      </section>
+
+      <section id="step-3" class="step result-step" hidden aria-labelledby="result-title">
+        <div class="result-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="eyebrowThree">A LITTLE SOMETHING FOR YOU</span><span class="eyebrow-ja">今日のめぐり</span></div><h1 id="result-title"><span data-i18n="resultTitleOne">Make a little</span> <em data-i18n="resultTitleTwo">space.</em></h1><p class="hero-lede" data-i18n="resultLede">A place, a moment, and a little inspiration for your day.</p></div><div class="result-seal" aria-hidden="true">吉<small>GOOD<br>ENERGY</small></div></div>
+        <div id="result-content"></div>
+        <div class="result-bottom"><button id="back-two" class="back-button" type="button"><span>←</span> <span data-i18n="changePlace">Change place</span></button><button id="restart" class="text-button" type="button" data-i18n="startAgain">Start again ↗</button></div>
+      </section>
+    </main>
+    <footer><div class="footer-brand">GOGYO<span>.</span> <small>五行</small></div><p data-i18n="footerNote">An invitation to pause, notice, and explore.</p><span class="footer-poem" aria-hidden="true">天 · 地 · 人</span><span class="footer-right" data-i18n="footerCulture">INSPIRED BY THE FIVE ELEMENTS · MADE FOR CURIOSITY</span></footer>
+  </div>
+</body>
+</html>
